@@ -4,35 +4,34 @@ import './index.css'
 import Vue from 'vue'
 import axios from 'axios'
 import url from 'js/api.js'
+import mixin from 'js/mixin.js'
 
-import { InfiniteScroll } from 'mint-ui';
-Vue.use(InfiniteScroll);
-
-import Foot from 'components/Foot.vue'
-import Swipe from 'components/Swipe.vue'
 
 new Vue({
     el: '#app',
     data: {
-        lists: null,
         bannerLists: null,
+        lists: null,
         pageNum: 1,
         pageSize: 6,
         loading: false, //是否继续加载
         allLoaded: false,
     },
     created() {
-        this.getLists()
+        this.gethotLists()
         this.getBanner()
     },
     methods: {
-        getLists() {
+        gethotLists() {
+            let obj = {
+                pageNum: this.pageNum,
+                pageSize: this.pageSize,
+            }
+            console.log(url, obj)
+
             if (this.allLoaded) return
             this.loading = true
-            axios.post(url.hotLists, {
-                pageNum: this.pageNum,
-                pageSize: this.pageSize
-            }).then(res => {
+            axios.post(url.hotLists, obj).then(res => {
                 let curLists = res.data.lists
                 if (curLists.length < this.pageSize) { //判断所有数据是否加载完毕
                     this.allLoaded = true
@@ -42,8 +41,8 @@ new Vue({
                 } else {
                     this.lists = curLists //初始化数据
                 }
-                this.loading = false
                 this.pageNum++
+                this.loading = false
             })
         },
         getBanner() {
@@ -52,8 +51,5 @@ new Vue({
             })
         }
     },
-    components: {
-        Foot,
-        Swipe
-    }
+    mixins: [mixin]
 })
