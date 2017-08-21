@@ -1,0 +1,33 @@
+/* 可以设置不同的进入和离开动画 */
+
+
+/* 设置持续时间和动画函数 */
+
+.sku-enter-active,
+.sku-leave-active {
+    transition: all .3s ease;
+    transform: translateY(0);
+}
+
+.sku-enter,
+.sku-leave-to
+/* .slide-fade-leave-active for below version 2.1.8 */
+
+{
+    transform: translateY(100%);
+    opacity: 0;
+}
+
+.mask-enter-active,
+.mask-leave-active {
+    transition: all .6s ease;
+    opacity: 1;
+}
+
+.mask-enter,
+.mask-leave-to
+/* .slide-fade-leave-active for below version 2.1.8 */
+
+{
+    opacity: 0;
+}
