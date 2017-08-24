@@ -28,7 +28,7 @@
             <!---->
             <!---->
             <div class="js-shop-list shop-list">
-              <div class="block block-order block-cart" v-for="(shop,index) in lists">
+              <div class="block block-order block-cart" v-for="(shop,index) in lists" v-if="shop.goodsList.length > 0">
                 <div class="header">
                   <div class="select-group js-select-group">
                     <span class="check" :class="{checked: shop.checked}" @click="selectShop(shop)"></span>
@@ -69,11 +69,11 @@
                             <div class="num" v-show="shop.editing">
                               <!---->
                               <div class="quantity">
-                                <button type="button" class="minus disabled"></button>
+                                <button type="button" class="minus " :class="{disabled: good.number === 1 }"></button>
                                 <input type="text" pattern="[0-9]*" class="txt" v-model="good.number">
                                 <button type="button" class="plus "></button>
-                                <div class="response-area response-area-minus"></div>
-                                <div class="response-area response-area-plus"></div>
+                                <div class="response-area response-area-minus" @click="changeSkuNum(good,-1)"></div>
+                                <div class="response-area response-area-plus" @click="changeSkuNum(good,1)"></div>
                               </div>
                             </div>
                             <div class="price c-orange">
@@ -81,7 +81,7 @@
                           </div>
                           <div class="error-box"></div>
                         </div>
-                        <div class="delete-btn"><span>删除</span></div>
+                        <div class="delete-btn" @click="removeGood(shop,index)"><span>删除</span></div>
                       </div>
                     </li>
                   </ul>

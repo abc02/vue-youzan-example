@@ -24,7 +24,7 @@ new Vue({
                         arr.push(good)
                     }
                 })
-                return
+                return arr
             })
         },
         removeLists() {
@@ -132,6 +132,21 @@ new Vue({
             })
             // 处理是否全选了商品列表
             this.isSelectAll()
+        },
+        changeSkuNum(good, num) {
+            if (num < 0 && good.number === 1) return
+            good.number += num
+        },
+        removeGood(shop, index) {
+            console.log(shop)
+            this.editingShop.goodsList.splice(index, 1)
+            if (!this.editingShop.goodsList.length) {
+                this.editingShop.editing = false
+                this.editingShop = null
+                this.lists.forEach((item, i) => {
+                    item.editingMsg = '编辑'
+                })
+            }
         }
     },
     mixins: [mixin]

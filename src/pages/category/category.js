@@ -23,6 +23,7 @@ new Vue({
     methods: {
         getTopList() {
             axios.post(url.topList).then(res => {
+                console.log(res)
                 this.topLists = res.data.lists
             }).catch(res => {
                 new Error(res)

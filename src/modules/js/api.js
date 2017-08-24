@@ -11,7 +11,8 @@ let url = {
     cartRemove: ' /cart/reduce',
     cartUpdate: '/cart/update',
     cartReduc: '/cart/reduce',
-    cartList: '/cart/list'
+    cartList: '/cart/list',
+    memberList: '/member/list-test'
 }
 
 
