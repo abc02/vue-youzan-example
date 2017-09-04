@@ -42,9 +42,9 @@ new Vue({
                 this.details.imgs.forEach((item) => {
                     this.bannerLists.push({
                         clickUrl: 'javascript:;',
-                        image: item
+                        image: item.replace('http:', '')
                     })
-                });
+                })
             })
         },
         changeTab(index) {

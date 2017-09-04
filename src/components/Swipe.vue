@@ -16,7 +16,7 @@
     width: 100%;
     height: 100%;
 }
-.swiper-slide a.js-no-follow{
+.custom-image-swiper .swiper-slide a.js-no-follow{
     width:100%; 
     height: 100%;
 }

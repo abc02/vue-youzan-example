@@ -26,7 +26,18 @@ let mixin = {
             })
         },
         replaceHttp(arr) {
-            if (arr) {
+            if (Array.isArray(arr)) {
+                return this.replaceArr(arr)
+            } else {
+                for (let key in arr) {
+                    arr[key] = this.replaceArr(arr[key])
+                }
+                return arr
+            }
+        },
+        replaceArr(arr) {
+            console.log(arr)
+            if (Array.isArray(arr)) {
                 arr.forEach((val, index, array) => {
                     if (val['img']) {
                         val['img'] = val['img'].replace('http:', '')
@@ -34,8 +45,9 @@ let mixin = {
                         val['image'] = val['image'].replace('http:', '')
                     }
                 })
+                return arr
             }
-            return arr 
+            
         }
     },
     filters: {

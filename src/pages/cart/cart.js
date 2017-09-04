@@ -48,12 +48,12 @@ new Vue({
         getCarttList() {
             axios.get(url.cartList).then(res => {
                 let lists = res.data.cartList
-                console.log(lists)
                 lists.forEach(shop => {
                     shop.checked = true
                     shop.editing = false
                     shop.editingMsg = '编辑'
                     shop.goodsList.forEach(good => {
+                        good.image  = good.image.replace('http:','')
                         good.checked = true
                     })
                 });

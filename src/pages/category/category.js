@@ -24,7 +24,7 @@ new Vue({
         getTopList() {
             axios.post(url.topList).then(res => {
                 console.log(res)
-                this.topLists = res.data.lists
+                this.topLists =  this.replaceHttp(res.data.lists)
             }).catch(res => {
                 new Error(res)
             })
@@ -35,7 +35,7 @@ new Vue({
                 this.getRank()
             } else {
                 axios.post(url.subList, { id }).then(res => {
-                    this.subData = res.data.data
+                    this.subData = this.replaceHttp(res.data.data)
                 }).catch(res => {
                     new Error(res)
                 })
@@ -43,7 +43,8 @@ new Vue({
         },
         getRank() {
             axios.post(url.rank).then(res => {
-                this.rankData = res.data.data
+                console.log(res)
+                this.rankData =  this.replaceHttp(res.data.data)
             }).catch(res => {
                 new Error(res)
             })
