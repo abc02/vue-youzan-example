@@ -28,6 +28,18 @@ let mixin = {
                 this.loading = false
             })
         },
+        replaceHttp(arr) {
+            if (arr) {
+                arr.forEach((val, index, array) => {
+                    if (val['img']) {
+                        val['img'] = val['img'].replace('http:', '')
+                    } else if (val['image']) {
+                        val['image'] = val['image'].replace('http:', '')
+                    }
+                })
+            }
+            return arr 
+        }
     },
     filters: {
         currency(price) {

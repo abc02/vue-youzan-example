@@ -33,13 +33,7 @@ new Vue({
             this.loading = true
             axios.post(url.hotLists, obj).then(res => {
                 let curLists = res.data.lists
-                if(curLists){
-                    console.log(curLists)
-                    curLists.forEach((val,index,array) => {
-                        val['img'] = val['img'].replace('http:','')
-                    })
-                    console.log(curLists)
-                }
+                curLists  = this.replaceHttp(curLists)
                 if (curLists.length < this.pageSize) { //判断所有数据是否加载完毕
                     this.allLoaded = true
                 }
@@ -54,7 +48,10 @@ new Vue({
         },
         getBanner() {
             axios.get(url.banner).then(res => {
-                this.bannerLists = res.data.lists
+                let lists = res.data.lists
+                console.log(lists)
+                lists  = this.replaceHttp(lists)
+                this.bannerLists = lists
             })
         }
     },
