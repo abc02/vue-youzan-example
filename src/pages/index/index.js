@@ -7,6 +7,9 @@ import url from 'js/api.js'
 import mixin from 'js/mixin.js'
 
 
+import { InfiniteScroll } from 'mint-ui';
+Vue.use(InfiniteScroll);
+
 new Vue({
     el: '#app',
     data: {
@@ -27,7 +30,7 @@ new Vue({
                 pageNum: this.pageNum,
                 pageSize: this.pageSize,
             }
-            // console.log(url, obj)
+            console.log(url.hotLists)
 
             if (this.allLoaded) return
             this.loading = true

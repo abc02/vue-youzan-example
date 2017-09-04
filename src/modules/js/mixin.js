@@ -4,9 +4,6 @@ import axios from 'axios'
 import Foot from 'components/Foot.vue'
 import Swipe from 'components/Swipe.vue'
 
-import { InfiniteScroll } from 'mint-ui';
-Vue.use(InfiniteScroll);
-
 let mixin = {
     methods: {
         getLists(url, obj) {
