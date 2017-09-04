@@ -36,7 +36,7 @@ new Vue({
                 if(curLists){
                     console.log(curLists)
                     curLists.forEach((val,index,array) => {
-                        val['img'] = 'https://bird.ioliu.cn/v1?url=' + val['img']
+                        val['img'] = val['img'].replace('http:','')
                     })
                     console.log(curLists)
                 }
