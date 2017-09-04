@@ -27,12 +27,19 @@ new Vue({
                 pageNum: this.pageNum,
                 pageSize: this.pageSize,
             }
-            console.log(url, obj)
+            // console.log(url, obj)
 
             if (this.allLoaded) return
             this.loading = true
             axios.post(url.hotLists, obj).then(res => {
                 let curLists = res.data.lists
+                if(curLists){
+                    console.log(curLists)
+                    curLists.forEach((val,index,array) => {
+                        val['img'] = 'https://bird.ioliu.cn/v1?url=' + val['img']
+                    })
+                    console.log(curLists)
+                }
                 if (curLists.length < this.pageSize) { //判断所有数据是否加载完毕
                     this.allLoaded = true
                 }
