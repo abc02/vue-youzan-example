@@ -18,4 +18,4 @@ function fetch(url, data) {
 }
 
 
-export default fecth
+export default fetch
