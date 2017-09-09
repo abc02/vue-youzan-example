@@ -167,7 +167,8 @@
                 <button href="javascript:;" 
                 class="j-delete-goods btn font-size-14 btn-red"
                 :disabled="!removeLists.length" 
-                 v-show="editingShop">
+                 v-show="editingShop"
+                 @lick="removeConfirm">
                  删除
                     </button>
               </div>
@@ -180,12 +181,12 @@
       <div id="F7cwj4hrx9" v-show="removePopup"
       class="popout-confirm popout-box" style="overflow: hidden; position: absolute; z-index: 1000; transition: opacity 300ms ease; top: 50%; left: 50%; transform: translate3d(-50%, -50%, 0px); visibility: visible; border-radius: 4px; background: white; width: 270px; padding: 15px; opacity: 1;">
         <div class="confirm-content font-size-14" style="line-height: 20px; padding: 5px 5px 10px;">
-          确定要删除该商品吗？
+         {{ removeMsg }}
         </div>
         <hr style="margin: 9px -15px 10px;">
         <div class="btn-2-1">
           <p class="js-cancel center font-size-16" style="padding-top: 5px;"
-          @click="removePopup= false">取消</p>
+          @click="removePopup = false">取消</p>
         </div>
         <div class="btn-2-1">
           <p class="js-ok center c-green font-size-16" style="padding-top: 5px;"

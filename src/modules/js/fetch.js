@@ -4,11 +4,13 @@ import axios from 'axios'
 function fetch(url, data) {
     return new Promise((resolve, reject) => {
         axios.post(url, data).then(res => {
-            let status = res.data.status
-            if (status === 200) {
+            let outerStatus = res.status
+            let innerStatus = res.data.status
+
+            if (outerStatus === 200 | innerStatus === 200) {
                 resolve(res)
             }
-            if (status === 300) {
+            if (outerStatus === 300) {
                 location.href = 'login.html'
             }
         }).catch(error => {

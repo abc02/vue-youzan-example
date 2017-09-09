@@ -20,6 +20,7 @@ new Vue({
         count: 0,
         removePopup: false,
         removeData : null,
+        removeMsg: ''
     },
     computed: {
         allSelected: {
@@ -96,7 +97,8 @@ new Vue({
     },
     methods: {
         getCarttList() {
-            axios.get(url.cartList).then(res => {
+            Cart.gettList().then(res => {
+                //console.log(res)
                 let lists = res.data.cartList
                 lists.forEach(shop => {
                     shop.checked = true
@@ -120,7 +122,6 @@ new Vue({
             shop[attr] = shop.goodsList.every(good => {
                 return good[attr]
             })
-            // this.isSelectAll()
         },
         selectShop(shop) {
             let attr = this.editingShop ? 'removeChecked' : 'checked'
@@ -128,84 +129,48 @@ new Vue({
             shop.goodsList.forEach(good => {
                 good[attr] = shop[attr]
             })
-            // this.isSelectAll()
         },
         selectAll() {
             let attr = this.editingShop ? 'allRemoveSelected' : 'allSelected'
             this[attr] = !this[attr]
-
-            // 进入编辑模式下,只操作当前shop列表checked
-            // if (this.editingShop) {
-            //     this.editingShop.checked = this.allSelected
-            //     this.editingShop.goodsList.forEach(good => {
-            //         good.checked = this.allSelected
-            //     })
-            //     return
-            // }
-
-            // this.lists.forEach(shop => {
-            //     shop.checked = this.allSelected
-            //     shop.goodsList.forEach(good => {
-            //         good.checked = this.allSelected
-            //     })
-            // })
         },
-        // isSelectAll() {
-        //     if (this.editingShop) {
-        //         this.allSelected = this.editingShop.checked
-        //         return
-        //     }
-        //     this.allSelected = this.lists.every(shop => {
-        //         return shop.checked
-        //     })
-        // },
         edit(shop, shopIndex) {
+            // 当前店铺进入或退出编辑状态
             shop.editing = !shop.editing
+            // 改变编辑状态Msg
             shop.editingMsg = shop.editing ? '完成' : '编辑'
+            // 不等于当前店铺索引位置，其他店铺锁定正常模式，Msg清空
             this.lists.forEach((item, i) => {
                 if (shopIndex !== i) {
                     item.editing = false
                     item.editingMsg = shop.editing ? '' : '编辑'
                 }
             })
-
-            // // 当前需要编辑商品传给editingShop
+            //当前的商铺是否编辑模式，是传入当前店铺，否则清空商铺和索引位置
             this.editingShop = shop.editing ? shop : null
             this.editingShopIndex = shop.editing ? shopIndex : -1
-            // // 进入编辑模式check打钩去掉
-            // shop.checked = !shop.editing
-            // shop.goodsList.forEach(good => {
-            //     good.checked = shop.checked
-
-            // })
-            // 处理是否全选了商品列表
-            // this.isSelectAll()
+       
         },
         reduce(good){
             if (good.number === 1) return
-            axios.post(url.cartReduce, {
-                id: good.id,
-                number: 1
-            }).then(res => {
+            Cart.reduce(good.id).then(res => {
                 good.number--
             })
         },
         add(good) {
-            // axios.post(url.cartAdd, {
-            //     id:good.id,
-            //     number:1
-            // }).then(res=>{
-            //     good.number++
-            // })
             Cart.add(good.id).then(res=>{
                 good.number++
             })
         },
         remove(shop,shopIndex,good,goodIndex){
+            // 显示弹窗
             this.removePopup = true
+            // 传入删除的数据
             this.removeData = {shop,shopIndex,good,goodIndex}
+            this.removeMsg = '确定要删除该商品吗？'
         },
         removeConfirm(){
+            // 解构赋值
             let {shop,shopIndex,good,goodIndex} =  this.removeData
             axios.post(url.cartRemove,{
                 id: good.id
@@ -219,8 +184,11 @@ new Vue({
             })
         },
         removeShop() {
+            // 清空编辑商铺
             this.editingShop = null
+            // 清空编辑商铺索引
             this.editingShopIndex = -1
+            // 所有商铺退出编辑模式
             this.lists.forEach(shop => {
                 shop.editing = false
                 shop.editingMsg = '编辑'
