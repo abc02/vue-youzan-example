@@ -19,7 +19,7 @@ new Vue({
         total: 0,
         count: 0,
         removePopup: false,
-        removeData : null,
+        removeData: null,
         removeMsg: ''
     },
     computed: {
@@ -149,44 +149,76 @@ new Vue({
             //当前的商铺是否编辑模式，是传入当前店铺，否则清空商铺和索引位置
             this.editingShop = shop.editing ? shop : null
             this.editingShopIndex = shop.editing ? shopIndex : -1
-       
+
         },
-        reduce(good){
+        reduce(good) {
             if (good.number === 1) return
             Cart.reduce(good.id).then(res => {
                 good.number--
             })
         },
         add(good) {
-            Cart.add(good.id).then(res=>{
+            Cart.add(good.id).then(res => {
                 good.number++
             })
         },
-        remove(shop,shopIndex,good,goodIndex){
+        remove(shop, shopIndex, good, goodIndex) {
             // 显示弹窗
             this.removePopup = true
             // 传入删除的数据
-            this.removeData = {shop,shopIndex,good,goodIndex}
+            this.removeData = { shop, shopIndex, good, goodIndex }
             this.removeMsg = '确定要删除该商品吗？'
         },
-        removeConfirm(){
+        removeList() {
+            // 显示弹窗
+            console.log('removeList')
+            this.removePopup = true
+            this.removeMsg = `确定将所选 ${this.removeLists.length} 个商品删除？`
+        },
+        removeConfirm() {
             // 解构赋值
-            let {shop,shopIndex,good,goodIndex} =  this.removeData
-            axios.post(url.cartRemove,{
-                id: good.id
-            }).then(res => {
-                shop.goodsList.splice(goodIndex, 1)
-                if(!shop.goodsList.length){
-                    this.lists.splice(shopIndex,1)
-                    this.removeShop()
-                }
-                this.removePopup = false
-            })
+            if (this.removeMsg === '确定要删除该商品吗？') {
+                let { shop, shopIndex, good, goodIndex } = this.removeData
+                Cart.cartRemove(good.id).then(res => {
+                    shop.goodsList.splice(goodIndex, 1)
+                    if (!shop.goodsList.length) {
+                        this.lists.splice(shopIndex, 1)
+                        this.removeShop()
+                    }
+                    this.removePopup = false
+                })
+            } else {
+                let ids = []
+                this.removeLists.forEach(good => {
+                    ids.push(good.id)
+                })
+                Cart.cartMremove({ ids }).then(res => {
+                    let arr = []
+                    this.editingShop.goodsList.forEach(good => {
+                        // 对比 => 删除列表和编辑列表的商品的id 
+                        let index = this.removeLists.findIndex(item => {
+                            return item.id == good.id
+                        })
+                        //  未删除则push到arr
+                        if (index === -1) {
+                            arr.push(good)
+                        }
+                    })
+                    // arr未删除商铺 则赋值给编辑商铺内商品列表
+                    if (arr.length) {
+                        this.editingShop.goodsList = arr
+                    } else {
+                        // 商铺列表长度为0 ，删除编辑的商铺，还原其他商铺
+                        this.lists.splice(this.editingShopIndex, 1)
+                        this.removeShop()
+                    }
+                    this.removePopup = false
+                })
+            }
         },
         removeShop() {
-            // 清空编辑商铺
+            // 还原编辑商铺初始值
             this.editingShop = null
-            // 清空编辑商铺索引
             this.editingShopIndex = -1
             // 所有商铺退出编辑模式
             this.lists.forEach(shop => {

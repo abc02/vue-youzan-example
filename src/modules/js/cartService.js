@@ -14,9 +14,14 @@ class Cart {
             number:1
         })
     }
-    static removeConfirm(id){
+    static cartRemove(id){
         return fetch(url.cartRemove,{
             id, //ids
+        })
+    }
+    static cartMremove(ids){
+        return fetch(url.cartMremove,{
+            ids
         })
     }
     static gettList(){
