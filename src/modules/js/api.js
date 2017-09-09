@@ -8,9 +8,10 @@ let url = {
     details: '/goods/details',
     deal: '/goods/deal',
     cartAdd: '/cart/add',
-    cartRemove: ' /cart/reduce',
+    cartRemove: '/cart/remove',
+    cartMremove: '/cart/mremove',
     cartUpdate: '/cart/update',
-    cartReduc: '/cart/reduce',
+    cartReduce: '/cart/reduce',
     cartList: '/cart/list',
     memberList: '/member/list-test'
 }
