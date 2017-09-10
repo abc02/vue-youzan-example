@@ -6,7 +6,7 @@
             :class="{'address-item-default': list.isDefault}"
             :key="list.id"
             v-for="list in lists"
-            @click="toEdit">
+            @click="toEdit(list)">
                 <div class="address-title">{{list.name}} {{list.tel}}</div>
                 <p>{{list.provinceName}}{{list.cityName}}{{list.districtName}}{{list.address}}</p>
                 <a class="addressedit"></a>
@@ -20,7 +20,8 @@
             没有地址，请添加
         </div>
         <div class="block stick-bottom-row center">
-            <router-link to="/address/form" class="btn btn-blue js-no-webview-block js-add-address-btn">
+            <router-link  class="btn btn-blue js-no-webview-block js-add-address-btn"
+            :to="{name:'form', query:{type:'add'}}">
                 新增地址
             </router-link>
         </div>
@@ -37,14 +38,17 @@ export default {
     },
     created() {
         Address.list().then(res => {
-            console.log(res)
             this.lists = res.data.lists
         })
     },
     methods: {
-        toEdit() {
+        toEdit(list) {
             this.$router.push({
-                path: '/address/form'
+               name:'form',
+               query:{
+                   type:'edit',
+                   instance: list
+               }
             })
         }
     }

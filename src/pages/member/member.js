@@ -14,9 +14,11 @@ let routes = [{
             component: require('./components/all.vue')
         }, {
             path: 'all',
+            name: 'all', // 命名路由
             component: require('./components/all.vue')
         }, {
             path: 'form',
+            name: 'form', 
             component: require('./components/form.vue')
         }]
 }]
