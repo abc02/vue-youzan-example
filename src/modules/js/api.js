@@ -13,7 +13,12 @@ let url = {
     cartUpdate: '/cart/update',
     cartReduce: '/cart/reduce',
     cartList: '/cart/list',
-    memberList: '/member/list-test'
+    memberList: '/member/list-test',
+    addressLists: '/address/list',
+    addressAdd : '/address/add',
+    addressRemove: '/address/remove',
+    addressUpdate: '/address/update',
+    addressSetDfault: '/address/setDefault'
 }
 
 
