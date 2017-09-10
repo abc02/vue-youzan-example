@@ -18,38 +18,8 @@
 </head>
 
 <body class=" ">
-  <div class="container " style="min-height: 581px;">
-    <div class="content">
-      <div class="user-infos" v-if="userInfo">
-        <div class="pull-left avatar">
-          <div class="img" style="background-image: url(https://img.yzcdn.cn/upload_files/no_pic.png?imageView2/2/w/280/h/280/q/75/format/webp);"></div>
-        </div>
-        <div class="pull-left desc">
-          <p>{{ userInfo.username }}</p>
-        </div>
-      </div>
-      <div class="order-related">
-        <ul class="uc-order list-horizon clearfix js-order-overview">
-          <li v-for="item in order">
-            <a class="link clearfix relative" data-for="topay" :class="item.icon" :href="item.link" target="_blank">
-              <p class="title-info c-black font-size-12">{{item.text}}</p>
-            </a>
-          </li>
-        </ul>
-        <div class="block block-list list-vertical" v-for="(list,outIndex) in blockLists" :key="outIndex">
-          <a class="block-item link clearfix" :class="item.icon" :href="item.link" target="_blank" v-for="(item,inIndex) in list" :key="inIndex">
-            <p class="title-info c-black font-size-14">{{item.text}}</p>
-          </a>
-        </div>
-
-      </div>
-    </div>
-  </div>
-  <div class="footer" style="min-height: 86px;">
-    <div class="copyright">
-      <div class="ft-copyright ">
-        <a href="https://www.youzan.com/?from_source=support_logo">有赞提供技术支持</a> </div>
-    </div>
+  <div id="app">
+    <router-view></router-view>
   </div>
 </body>
 
