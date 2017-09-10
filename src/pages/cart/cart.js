@@ -7,8 +7,10 @@ import Vue from 'vue'
 import mixin from 'js/mixin.js'
 import Cart from 'js/cartService.js'
 import VueTouch from 'vue-touch-easyhi'
+VueTouch.config.swipe = {
+    threshold: 50
+}
 Vue.use(VueTouch)
-
 new Vue({
     el: '.container',
     data: {
@@ -225,7 +227,13 @@ new Vue({
                 shop.editing = false
                 shop.editingMsg = '编辑'
             })
-        }
+        },
+        onSwipeLeft(shopIndex,goodIndex) {
+            // console.log('onSwipeLeft',shopIndex,goodIndex)
+            // event is a Hammer Event Object 
+            console.log(this.$refs[`goods-${shopIndex}-${goodIndex}`])
+            
+          }
     },
     mixins: [mixin]
 })

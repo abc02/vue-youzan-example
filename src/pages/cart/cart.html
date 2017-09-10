@@ -55,7 +55,10 @@
                   <ul class="js-list block block-list block-list-cart border-0">
                     <li class="block-item block-item-cart" 
                     :class="{editing:shop.editing}" 
-                    v-for="(good,goodIndex) in shop.goodsList">
+                    v-for="(good,goodIndex) in shop.goodsList"
+                    :ref ="'goods-' + shopIndex + '-' + goodIndex"
+                    :key = "good.id"
+                    v-touch:swipeleft="onSwipeLeft(shopIndex,goodIndex)">
                       <div>
                         <div class="check-container"
                         @click="selectGood(shop,good)">
