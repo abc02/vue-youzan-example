@@ -6,11 +6,12 @@ import './cart.css'
 import Vue from 'vue'
 import mixin from 'js/mixin.js'
 import Cart from 'js/cartService.js'
-import VueTouch from 'vue-touch-easyhi'
-VueTouch.config.swipe = {
-    threshold: 50
-}
-Vue.use(VueTouch)
+// import VueTouch from 'vue-touch-easyhi'
+import Velocity from 'velocity-animate'
+// VueTouch.config.swipe = {
+//     threshold: 50
+// }
+// Vue.use(VueTouch)
 new Vue({
     el: '.container',
     data: {
@@ -228,12 +229,42 @@ new Vue({
                 shop.editingMsg = '编辑'
             })
         },
-        onSwipeLeft(shopIndex,goodIndex) {
+        onSwipe(e, binding) {
+            console.log(e,binding)
+            let left = 0
+            if (e.deltaX > 0) {
+                // right
+                left = '0px'
+            }
+            if (e.deltaX < 0) {
+                // left
+                left = '-60px'
+            }
             // console.log('onSwipeLeft',shopIndex,goodIndex)
             // event is a Hammer Event Object 
-            console.log(this.$refs[`goods-${shopIndex}-${goodIndex}`])
-            
-          }
+            // let left = '0px '
+            // console.log(this.$refs[`goods-${shopIndex}-${goodIndex}`])
+            // Velocity(this.$refs[`goods-${shopIndex}-${goodIndex}`],{
+            //     left
+            // })
+        },
+        start(e,good){
+            good.startX = e.changedTouches[0].clientX
+        },
+        end(e,shopIndex,good,goodIndex){
+            let endX = e.changedTouches[0].clientX
+            let left = '0'
+            if(good.startX - endX > 100){
+                left = '-60px'
+            }
+            if(endX - good.startX > 100){
+                left = '0px'
+            }
+            Velocity(this.$refs[`goods-${shopIndex}-${goodIndex}`],{
+                left
+            })
+
+        }
     },
     mixins: [mixin]
 })
