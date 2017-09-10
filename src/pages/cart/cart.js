@@ -6,6 +6,8 @@ import './cart.css'
 import Vue from 'vue'
 import mixin from 'js/mixin.js'
 import Cart from 'js/cartService.js'
+import VueTouch from 'vue-touch-easyhi'
+Vue.use(VueTouch)
 
 new Vue({
     el: '.container',
