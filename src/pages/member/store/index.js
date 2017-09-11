@@ -14,8 +14,8 @@ const store = new Vuex.Store({
         init(state, lists) {
             state.lists = lists
         },
-        add(state, data) {
-            state.lists.push(data)
+        add(state, instance) {
+            state.lists.push(instance)
         },
         update(state, instance) {
             let lists = [].concat(state.lists)
@@ -32,7 +32,7 @@ const store = new Vuex.Store({
                 return item.id === id
             })
             console.log(index)
-            state.lists.splice(index,1)
+            lists.splice(index,1)
         },
         setDefault(state, id) {
             let lists = state.lists
@@ -47,15 +47,16 @@ const store = new Vuex.Store({
                 commit('init', res.data.lists)
             })
         },
-        addAction({ commit }, data) {
-            Address.add(data).then(res => {
-                commit('add', data)
+        addAction({ commit }, instance) {
+            Address.add(instance).then(res => {
+                // 模拟添加ID，其实instancez最好后台返回
+                instance.id = parseInt(Math.random()*10000)
+                console.log(instance)
+                commit('add',instance)
             })
         },
         updateAction({ commit }, instance) {
             Address.update(instance).then(res => {
-                instance.id = parseInt(Math.random()*10000)
-                console.log(instance)
                 commit('update', instance)
             })
         },

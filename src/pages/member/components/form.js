@@ -32,13 +32,14 @@ export default {
             this.name = ad.name
             this.tel = ad.tel
             this.id = ad.id
+            this.isDefault = ad.isDefault
         }
     },
     methods: {
         add() {
             //合法校验&非空字符串
-            let { name, tel, provinceValue, cityValue, districtValue, address } = this
-            let data = { name, tel, provinceValue, cityValue, districtValue, address }
+            let { name, tel, id, isDefault, provinceValue, cityValue, districtValue, address } = this
+            let data = { name, tel, id, isDefault, provinceValue, cityValue, districtValue, address }
             if (this.type === 'add') {
                 // Address.add(data).then(res=>{
                 //     this.$router.go(-1)
