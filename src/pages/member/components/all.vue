@@ -11,10 +11,6 @@
                 <p>{{list.provinceName}}{{list.cityName}}{{list.districtName}}{{list.address}}</p>
                 <a class="addressedit"></a>
             </a>
-            <a class="block-item js-address-item address-item address-item-default" href="https://pfmarket.youzan.com/user/address/form?m_alias=3nu78u467kddj&amp;id=69150193&amp;from=">
-                <div class="address-title">tony 13112345678</div>
-                <p>北京市北京市东城区天安门</p>
-            </a>
         </div>
         <div v-else>
             没有地址，请添加
