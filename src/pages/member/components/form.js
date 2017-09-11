@@ -15,15 +15,20 @@ export default {
             districtLists: null
         }
     },
+    computed: {
+        lists() {
+            return this.$store.state.lists
+        }
+    },
     created() {
         let query = this.$route.query
         this.type = query.type
         this.instance = query.instance
 
-        if(this.type === 'edit'){
+        if (this.type === 'edit') {
             let ad = this.instance
             this.provinceValue = parseInt(ad.provinceValue)
-            this.address  = ad.address
+            this.address = ad.address
             this.name = ad.name
             this.tel = ad.tel
             this.id = ad.id
@@ -32,34 +37,43 @@ export default {
     methods: {
         add() {
             //合法校验&非空字符串
-            let {name, tel,provinceValue, cityValue, districtValue, address} = this
-            let data = {name, tel,provinceValue, cityValue, districtValue, address}
-            if(this.type === 'add'){
-                Address.add(data).then(res=>{
-                    this.$router.go(-1)
-                })
+            let { name, tel, provinceValue, cityValue, districtValue, address } = this
+            let data = { name, tel, provinceValue, cityValue, districtValue, address }
+            if (this.type === 'add') {
+                // Address.add(data).then(res=>{
+                //     this.$router.go(-1)
+                // })
+                this.$store.dispatch('addAction', data)
             }
-            if(this.type === 'edit'){
-                Address.update(data).then(res=>{
-                    this.$router.go(-1)
-                })
+            if (this.type === 'edit') {
+                // Address.update(data).then(res => {
+                //     this.$router.go(-1)
+                // })
+                this.$store.dispatch('updateAction', data)
             }
         },
         remove() {
-            Address.remove(this.id).then(res=>{
-                this.$router.go(-1)
-            })
-
+            // Address.remove(this.id).then(res => {
+            //     this.$router.go(-1)
+            // })
+            this.$store.dispatch('removeAction', this.id)
         },
-        setDefault(){
-            Address.setDefault(this.id).then(res=>{
-                this.$router.go(-1)
-            })
+        setDefault() {
+            // Address.setDefault(this.id).then(res => {
+            //     this.$router.go(-1)
+            // })
+            this.$store.dispatch('setDefaultAction', this.id)
         }
     },
     watch: {
+        lists: {
+            handler() {
+                this.$router.go(-1)
+            },
+            deep: true
+        },
         provinceValue(val) {
-            console.log('provinceValue', val)
+            // console.log('provinceValue', val)
             if (val === -1) return
             let list = this.addressData.list
             // 找到省级的索引位置
@@ -67,21 +81,21 @@ export default {
                 return item.value === val
             })
             //找到省级  => 市级
-            console.log(list[index].children)
+            // console.log(list[index].children)
             this.cityLists = list[index].children
             // 重新选择省级， 还原市级、区级
-            console.log(this.cityValue)
+            // console.log(this.cityValue)
             this.cityValue = -1
             this.districtValue = -1
-            if(this.type === 'edit'){
+            if (this.type === 'edit') {
                 this.cityValue = parseInt(this.instance.cityValue)
             }
         },
         cityValue(val) {
             // val为什么是字符串
-            console.log('cityValue', typeof val)
-            if(val == -1) return 
-            console.log(val)
+            // console.log('cityValue', typeof val)
+            if (val == -1) return
+            // console.log(val)
             let list = this.cityLists
             // 找到市级的位置
             let index = list.findIndex(item => {
@@ -91,7 +105,7 @@ export default {
             this.districtLists = list[index].children
             // 重新选择省级， 还原市级、区级
             this.districtValue = -1
-            if(this.type === 'edit'){
+            if (this.type === 'edit') {
                 this.districtValue = parseInt(this.instance.districtValue)
             }
         }
