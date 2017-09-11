@@ -57,7 +57,9 @@ export default {
             // Address.remove(this.id).then(res => {
             //     this.$router.go(-1)
             // })
-            this.$store.dispatch('removeAction', this.id)
+            if(window.confirm('确认要删除吗')){
+                this.$store.dispatch('removeAction', this.id)
+            }
         },
         setDefault() {
             // Address.setDefault(this.id).then(res => {
