@@ -162,7 +162,7 @@
  .arrow-right::after,
  .clearfix:after,
  .container .content:after {
-     content: ''
+     /* content: ''  上线引起BUG */
  }
 
  a img {
